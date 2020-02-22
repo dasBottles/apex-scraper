@@ -20,26 +20,33 @@ app.get('/scrape', (req, res) =>{
     .then((response) => {
         let $ = cheerio.load(response.data);
         let result = {};
-        $('eapl-tile h5').each((i, element) =>{
+        $('eapl-tile__title h5').each((i, element) =>{
 
-            result.title = $(element)
-            .children('a')
+            result.title = $(this)
+            // .children('a')
             .text();
 
-            result.link = $(element)
-            .children('a')
+            result.link = $(this)
+            .children()
             .attr('href');
 
-            db.Article.create(result)
-            .then((dbArticle) => {
-                console.log(dbArticle);
-            })
-            .catch((err) => {
-                res.send(err);
+            // db.Article.create(result)
+            // .then((dbArticle) => {
+            //     console.log(dbArticle);
+            // })
+            // .catch((err) => {
+            //     res.send(err);
+            // });
+
+            result.push({
+                title: title,
+                link: link
             });
         });
+        console.log(result);
+        res.json(result);
     });
-    res.send('Scrape Complete');
+    // res.send('Scrape Complete');
 });
 
 
