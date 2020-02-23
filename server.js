@@ -10,8 +10,8 @@ const app = express(),
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
-app.use(express.static("public"));    
-
+app.use(express.static("public")); 
+   
 mongoose.connect("mongodb://user:password1@ds213896.mlab.com:13896/heroku_qtvczxd3", { useNewUrlParser: true });
 
 // A GET route for scraping the keysets from originativeco
@@ -19,7 +19,7 @@ app.get('/scrape', (req, res) =>{
     axios.get('https://www.originativeco.com/collections/keysets')
     .then((response) => {
         let $ = cheerio.load(response.data);
-        $('li .title').each((i, element) =>{
+        $('li .product-inner').each((i, element) =>{
             let result = {};
 
             result.title = $(element)
@@ -30,6 +30,10 @@ app.get('/scrape', (req, res) =>{
             .children()
             .attr('href');
 
+            result.img = $(element)
+            .children()
+            .attr('src')
+
             db.Article.create(result)
             .then((dbArticle) => {
                 console.log(dbArticle);
@@ -38,7 +42,6 @@ app.get('/scrape', (req, res) =>{
                 res.send(err);
             });
         });
-        console.log(dbArticle);
     });
     res.send('Scrape Complete');
 });
