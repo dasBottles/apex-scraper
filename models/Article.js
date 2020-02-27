@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose'),
+ Schema = mongoose.Schema,
+ makeDate = require('../public/js/makeDate');
 
 const ArticleSchema = new Schema({
     title: {

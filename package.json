@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dasBottles/apex-scraper.git"
@@ -22,6 +21,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "mongoose": "^5.9.2",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "sweetalert": "^2.1.2"
   }
 }

@@ -1,8 +1,8 @@
 const express = require('express'),
-    cheerio = require('cheerio'),
-    axios = require('axios'),
-    mongoose = require('mongoose');
-    db = require('./models');
+    mongoose = require('mongoose'),
+    db = require('./models'),
+    scrapeData = require('./public/js/scrape'),
+    scrapeSummary = require('./public/js/summary');
 
 const app = express(),
     PORT = process.env.PORT || 8000;
@@ -16,34 +16,8 @@ mongoose.connect("mongodb://user:password1@ds213896.mlab.com:13896/heroku_qtvczx
 
 // A GET route for scraping the keysets from originativeco
 app.get('/scrape', (req, res) =>{
-    axios.get('https://www.originativeco.com/collections/keysets')
-    .then((response) => {
-        let $ = cheerio.load(response.data);
-        $('li .product-inner').each((i, element) =>{
-            let result = {};
-
-            result.title = $(element)
-            .children('a')
-            .text();
-
-            result.link = $(element)
-            .children()
-            .attr('href');
-
-            result.img = $(element)
-            .children()
-            .attr('src')
-
-            db.Article.create(result)
-            .then((dbArticle) => {
-                console.log(dbArticle);
-            })
-            .catch((err) => {
-                res.send(err);
-            });
-        });
-    });
-    res.send('Scrape Complete');
+    // scrapeData(req, res);
+    scrapeSummary(req,res);
 });
 
 
