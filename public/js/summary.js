@@ -1,12 +1,10 @@
 const axios = require('axios'),
-    cheerio = require('cheerio'),
-    db = require('../../models');
+    cheerio = require('cheerio');
 
-const scrapeSummary = (req, res) => {
+const scrapeSummary = async (link) => {
     // let keySet = '';
-    // axios.get(`https://www.originativeco.com/products/${keySet}`)
-    axios.get(`https://www.originativeco.com/products/gmk-toxic`)
-    .then((response) => {
+    const response = await axios.get(`https://www.originativeco.com${link}`)
+    // axios.get(`https://www.originativeco.com/products/gmk-toxic`)
         let $ = cheerio.load(response.data);
         $('.rte').each((i, element) => {
             let summary = {};
@@ -15,10 +13,9 @@ const scrapeSummary = (req, res) => {
             .children('p')
             .text();
 
-            console.log(summary);
-            res.json(summary)
+            console.log(summary.body);
+            return summary.body;
         });
-    });
 };
 
 module.exports = scrapeSummary;

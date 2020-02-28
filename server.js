@@ -12,12 +12,13 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public")); 
    
-mongoose.connect("mongodb://user:password1@ds213896.mlab.com:13896/heroku_qtvczxd3", { useNewUrlParser: true });
+// mongoose.connect("mongodb://user:password1@ds213896.mlab.com:13896/heroku_qtvczxd3", { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true});
 
 // A GET route for scraping the keysets from originativeco
 app.get('/scrape', (req, res) =>{
-    // scrapeData(req, res);
-    scrapeSummary(req,res);
+    scrapeData(req, res);
+    // scrapeSummary(req,res);
 });
 
 
